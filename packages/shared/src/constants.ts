@@ -243,6 +243,9 @@ export const BUDGET_INCIDENT_RESOLUTION_ACTIONS = [
 ] as const;
 export type BudgetIncidentResolutionAction = (typeof BUDGET_INCIDENT_RESOLUTION_ACTIONS)[number];
 
+export const SCHEDULED_TASK_STATUSES = ["active", "paused"] as const;
+export type ScheduledTaskStatus = (typeof SCHEDULED_TASK_STATUSES)[number];
+
 export const HEARTBEAT_INVOCATION_SOURCES = [
   "timer",
   "assignment",
@@ -286,6 +289,7 @@ export const LIVE_EVENT_TYPES = [
   "plugin.ui.updated",
   "plugin.worker.crashed",
   "plugin.worker.restarted",
+  "scheduled_task.fired",
 ] as const;
 export type LiveEventType = (typeof LIVE_EVENT_TYPES)[number];
 
@@ -475,6 +479,7 @@ export const PLUGIN_RESERVED_COMPANY_ROUTE_SEGMENTS = [
   "inbox",
   "design-guide",
   "tests",
+  "schedules",
 ] as const;
 export type PluginReservedCompanyRouteSegment =
   (typeof PLUGIN_RESERVED_COMPANY_ROUTE_SEGMENTS)[number];
