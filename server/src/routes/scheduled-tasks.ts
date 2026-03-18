@@ -145,7 +145,7 @@ export function scheduledTaskRoutes(db: Db) {
       assigneeAgentId: task.assigneeAgentId,
       projectId: task.projectId,
       priority: task.priority,
-      status: "backlog",
+      status: "todo",
     });
 
     // Wake the agent
@@ -154,6 +154,11 @@ export function scheduledTaskRoutes(db: Db) {
         source: "timer",
         triggerDetail: "manual",
         reason: `Manual trigger: ${task.title}`,
+        contextSnapshot: {
+          issueId: issue.id,
+          ...(task.projectId ? { projectId: task.projectId } : {}),
+          wakeReason: "issue_assigned",
+        },
       });
     } catch {
       // Agent wake failure is non-fatal
