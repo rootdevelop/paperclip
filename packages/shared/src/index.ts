@@ -116,6 +116,8 @@ export {
   type PluginWebhookDeliveryStatus,
   type PluginEventType,
   type PluginBridgeErrorCode,
+  SCHEDULED_TASK_STATUSES,
+  type ScheduledTaskStatus,
 } from "./constants.js";
 
 export type {
@@ -240,6 +242,7 @@ export type {
   PluginJobRecord,
   PluginJobRunRecord,
   PluginWebhookDeliveryRecord,
+  ScheduledTask,
   QuotaWindow,
   ProviderQuotaResult,
 } from "./types/index.js";
@@ -411,6 +414,10 @@ export {
   type PluginStateScopeKey,
   type SetPluginState,
   type ListPluginState,
+  createScheduledTaskSchema,
+  updateScheduledTaskSchema,
+  type CreateScheduledTask,
+  type UpdateScheduledTask,
 } from "./validators/index.js";
 
 export { API_PREFIX, API } from "./api.js";

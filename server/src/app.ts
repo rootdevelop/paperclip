@@ -43,6 +43,9 @@ import { setPluginEventBus } from "./services/activity-log.js";
 import { createPluginDevWatcher } from "./services/plugin-dev-watcher.js";
 import { createPluginHostServiceCleanup } from "./services/plugin-host-service-cleanup.js";
 import { pluginRegistryService } from "./services/plugin-registry.js";
+import { scheduledTaskRoutes } from "./routes/scheduled-tasks.js";
+import { createScheduledTaskScheduler } from "./services/scheduled-task-scheduler.js";
+import { heartbeatService } from "./services/heartbeat.js";
 import { createHostClientHandlers } from "@paperclipai/plugin-sdk";
 import type { BetterAuthSessionResult } from "./auth/better-auth.js";
 
@@ -149,6 +152,7 @@ export async function createApp(
   api.use(dashboardRoutes(db));
   api.use(sidebarBadgeRoutes(db));
   api.use(instanceSettingsRoutes(db));
+  api.use(scheduledTaskRoutes(db));
   const hostServicesDisposers = new Map<string, () => void>();
   const workerManager = createPluginWorkerManager();
   const pluginRegistry = pluginRegistryService(db);
@@ -280,8 +284,14 @@ export async function createApp(
 
   app.use(errorHandler);
 
+  const scheduledTaskScheduler = createScheduledTaskScheduler({
+    db,
+    heartbeat: heartbeatService(db),
+  });
+
   jobCoordinator.start();
   scheduler.start();
+  scheduledTaskScheduler.start();
   void toolDispatcher.initialize().catch((err) => {
     logger.error({ err }, "Failed to initialize plugin tool dispatcher");
   });

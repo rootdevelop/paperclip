@@ -111,6 +111,7 @@ export type {
   CompanyPortabilityImportResult,
   CompanyPortabilityExportRequest,
 } from "./company-portability.js";
+export type { ScheduledTask } from "./scheduled-task.js";
 export type {
   JsonSchema,
   PluginJobDeclaration,

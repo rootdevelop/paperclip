@@ -179,6 +179,13 @@ export {
 } from "./access.js";
 
 export {
+  createScheduledTaskSchema,
+  updateScheduledTaskSchema,
+  type CreateScheduledTask,
+  type UpdateScheduledTask,
+} from "./scheduled-task.js";
+
+export {
   jsonSchemaSchema,
   pluginJobDeclarationSchema,
   pluginWebhookDeclarationSchema,
