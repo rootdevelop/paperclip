@@ -1,5 +1,6 @@
 /// <reference path="./types/express.d.ts" />
 import { existsSync, readFileSync, rmSync } from "node:fs";
+import { randomBytes } from "node:crypto";
 import { createServer } from "node:http";
 import { resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
@@ -433,6 +434,10 @@ export async function startServer(): Promise<StartedServer> {
     | undefined;
   if (config.deploymentMode === "local_trusted") {
     await ensureLocalTrustedBoardPrincipal(db as any);
+    if (!process.env.PAPERCLIP_AGENT_JWT_SECRET) {
+      process.env.PAPERCLIP_AGENT_JWT_SECRET = randomBytes(32).toString("hex");
+      logger.info("Auto-generated PAPERCLIP_AGENT_JWT_SECRET for local_trusted mode");
+    }
   }
   if (config.deploymentMode === "authenticated") {
     const {

@@ -122,7 +122,7 @@ export function createScheduledTaskScheduler(
       assigneeAgentId: task.assigneeAgentId,
       projectId: task.projectId,
       priority: task.priority,
-      status: "backlog",
+      status: "todo",
     });
 
     log.info(
@@ -136,6 +136,11 @@ export function createScheduledTaskScheduler(
         source: "timer",
         triggerDetail: "system",
         reason: `Scheduled task: ${task.title}`,
+        contextSnapshot: {
+          issueId: issue.id,
+          ...(task.projectId ? { projectId: task.projectId } : {}),
+          wakeReason: "issue_assigned",
+        },
       });
     } catch (err) {
       log.warn(
